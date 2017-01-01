@@ -1,0 +1,7 @@
+---
+jasper_user: jasper
+jasper_path: /home/{{ jasper_user }}/jasper
+openfst_name: openfst-1.5.4
+openfst_path: http://www.openfst.org/twiki/pub/FST/FstDownload/{{ openfst_name }}.tar.gz
+openfst_extract_dir: /home/{{ jasper_user }}
+openfst_dir: "{{ openfst_extract_dir }}/{{ openfst_name }}"

@@ -1,0 +1,67 @@
+---
+- name: Add experimental repo
+  command: echo 'deb http://httpredir.debian.org/debian experimental main contrib non-free' > /etc/apt/sources.list.d/experimental.list
+
+- name: Update apt
+  apt: update_cache=yes
+
+- name: Install packages
+  package: name={{ item }} state=latest
+  with_items:
+    - git
+    - python-dev
+    - bison
+    - libasound2-dev
+    - python-pyaudio
+    - pocketsphinx
+    - swig
+    - libpulse-dev
+
+- name: Install experimental packages
+  command: apt-get -t experimental install m2m-aligner mitlm
+
+- name: Download libfst
+  get_url:
+    url: "{{ openfst_path }}"
+    dest: /tmp/openfst.tar.gz
+  become_user: "{{ jasper_user }}"
+
+- name: Extract libfst
+  unarchive:
+    src: /tmp/openfst.tar.gz
+    dest: "{{ openfst_extract_dir }}"
+    remote_src: True
+  become_user: "{{ jasper_user }}"
+
+- name: Configure libfst
+  command: './configure --enable-compact-fsts --enable-const-fsts --enable-far --enable-lookahead-fsts --enable-pdt' chdir={{ openfst_dir }}
+  become_user: "{{ jasper_user }}"
+
+- name: Make libfst
+  command: make chdir={{ openfst_dir }}
+  become_user: "{{ jasper_user }}"
+
+- name: Install libfst
+  command: 'make install' chdir={{ openfst_dir }}
+
+- name: WIP comment
+  debug: msg="TODO finish building libfst :)"
+
+- name: Install custom packages
+  command: apt-get -t experimental install phonetisaurus
+
+- name: Install modern pip
+  command: easy_install pip
+
+- name: Create jasper user
+  user: name={{ jasper_user }} comment="jasper"
+
+- name: Clone jasper repo
+  git: repo=https://github.com/jasperproject/jasper-client.git dest={{ jasper_path }}
+  become_user: jasper
+
+- name: Pip install jasper requirements
+  pip: requirements="{{ jasper_path }}/client/requirements.txt"
+
+- name: Pip install jasper specifics
+  pip: name=pocketsphinx extra_args=--no-cache-dir
