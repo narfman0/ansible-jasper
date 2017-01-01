@@ -1,54 +1,21 @@
 ---
 - name: Add experimental repo
-  command: echo 'deb http://httpredir.debian.org/debian experimental main contrib non-free' > /etc/apt/sources.list.d/experimental.list
+  shell: echo 'deb http://httpredir.debian.org/debian experimental main contrib non-free' > /etc/apt/sources.list.d/experimental.list
+
+- name: Add testing repo
+  shell: echo 'deb http://httpredir.debian.org/debian testing main' > /etc/apt/sources.list.d/testing.list
 
 - name: Update apt
   apt: update_cache=yes
 
 - name: Install packages
-  package: name={{ item }} state=latest
-  with_items:
-    - git
-    - python-dev
-    - bison
-    - libasound2-dev
-    - python-pyaudio
-    - pocketsphinx
-    - swig
-    - libpulse-dev
-
-- name: Install experimental packages
-  command: apt-get -t experimental install m2m-aligner mitlm
-
-- name: Download libfst
-  get_url:
-    url: "{{ openfst_path }}"
-    dest: /tmp/openfst.tar.gz
-  become_user: "{{ jasper_user }}"
-
-- name: Extract libfst
-  unarchive:
-    src: /tmp/openfst.tar.gz
-    dest: "{{ openfst_extract_dir }}"
-    remote_src: True
-  become_user: "{{ jasper_user }}"
-
-- name: Configure libfst
-  command: './configure --enable-compact-fsts --enable-const-fsts --enable-far --enable-lookahead-fsts --enable-pdt' chdir={{ openfst_dir }}
-  become_user: "{{ jasper_user }}"
-
-- name: Make libfst
-  command: make chdir={{ openfst_dir }}
-  become_user: "{{ jasper_user }}"
+  command: apt-get install git python-dev bison libasound2-dev python-pyaudio pocketsphinx swig libpulse-dev -y
 
 - name: Install libfst
-  command: 'make install' chdir={{ openfst_dir }}
+  command: apt-get -t testing install libfst-tools -y
 
-- name: WIP comment
-  debug: msg="TODO finish building libfst :)"
-
-- name: Install custom packages
-  command: apt-get -t experimental install phonetisaurus
+- name: Install experimental packages
+  command: apt-get -t experimental install m2m-aligner mitlm phonetisaurus -y
 
 - name: Install modern pip
   command: easy_install pip
