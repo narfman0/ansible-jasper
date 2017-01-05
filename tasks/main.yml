@@ -1,24 +1,6 @@
 ---
-- name: Add experimental repo
-  shell: echo 'deb http://httpredir.debian.org/debian experimental main contrib non-free' > /etc/apt/sources.list.d/experimental.list
-
-- name: Add testing repo
-  shell: echo 'deb http://httpredir.debian.org/debian testing main' > /etc/apt/sources.list.d/testing.list
-
-- name: Update apt
-  apt: update_cache=yes
-
-- name: Install packages
-  command: apt-get install git python-dev bison libasound2-dev python-pyaudio pocketsphinx swig libpulse-dev espeak -y
-
-- name: Install libfst
-  command: apt-get -t testing install libfst-tools -y
-
-- name: Install experimental packages
-  command: apt-get -t experimental install m2m-aligner mitlm phonetisaurus -y
-
-- name: Install modern pip
-  command: easy_install pip
+- include: packages.yml
+  tags: packages
 
 - name: Create jasper user
   user: name={{ jasper_user }} comment="jasper" shell=/bin/bash groups=audio append=yes
@@ -27,15 +9,11 @@
   git: repo=https://github.com/jasperproject/jasper-client.git dest={{ jasper_path }}
   become_user: "{{ jasper_user }}"
 
-- name: Pip install jasper requirements
-  pip: requirements="{{ jasper_path }}/client/requirements.txt"
+- include: phonetisaurus.yml
+  tags: phonetisaurus
 
-- name: Pip install jasper specifics
-  pip: name=pocketsphinx extra_args=--no-cache-dir
-
-- name: Set up phonetisaurus fst
-  shell: 'wget https://www.dropbox.com/s/kfht75czdwucni1/g014b2b.tgz && tar xf g014b2b.tgz && cd g014b2b && ./compile-fst.sh && cd .. && mv g014b2b phonetisaurus'
-  become_user: "{{ jasper_user }}"
+- include: pip.yml
+  tags: pip
 
 - name: Create settings directory
   file: path={{ jasper_base_path }}/.jasper state=directory

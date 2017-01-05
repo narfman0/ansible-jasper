@@ -1,0 +1,33 @@
+---
+- name: Add experimental repo
+  shell: echo 'deb http://httpredir.debian.org/debian experimental main contrib non-free' > /etc/apt/sources.list.d/experimental.list
+
+- name: Add testing repo
+  shell: echo 'deb http://httpredir.debian.org/debian testing main' > /etc/apt/sources.list.d/testing.list
+
+- name: Install packages
+  apt: name={{ item }} update_cache=yes default_release=stable
+  with_items:
+    - git
+    - bison
+    - libasound2-dev
+    - pocketsphinx
+    - swig
+    - libpulse-dev
+    - espeak
+    - alsa-utils
+
+- name: Install testing packages
+  apt: name={{ item }} default_release=testing
+  with_items:
+    - libfst-tools
+    - python-dev
+    - python-pyaudio
+    - python-pip
+
+- name: Install experimental packages
+  apt: name={{ item }} default_release=experimental
+  with_items:
+    - m2m-aligner
+    - mitlm
+    - phonetisaurus

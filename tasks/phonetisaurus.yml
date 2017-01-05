@@ -1,0 +1,32 @@
+---
+- name: Check if phonetisaurus downloaded
+  stat:
+    path: "{{ jasper_base_path }}/g014b2b"
+  register: stat_result
+
+- name: Download and extract phonetisaurus
+  unarchive:
+    src: https://github.com/narfman0/ansible-jasper/releases/download/v1.0.0/g014b2b.tgz
+    dest: "{{ jasper_base_path }}"
+    remote_src: True
+  become_user: "{{ jasper_user }}"
+  when: stat_result.stat.exists == False
+
+- name: Check if phonetisaurus built
+  stat:
+    path: "{{ jasper_base_path }}/g014b2b/g014b2b.fst"
+  register: stat_result_built
+
+- name: Set up phonetisaurus
+  shell: ./compile-fst.sh
+  args:
+    chdir: "{{ jasper_base_path }}/g014b2b/"
+  become_user: "{{ jasper_user }}"
+  when: stat_result_built.stat.exists == False
+
+- name: Link g014b2b to expected phonetisaurus directory
+  file:
+    src: '{{ jasper_base_path }}/g014b2b'
+    dest: '{{ jasper_base_path }}/phonetisaurus'
+    state: link
+  become_user: "{{ jasper_user }}"

@@ -1,0 +1,6 @@
+---
+- name: Pip install jasper requirements
+  pip: requirements="{{ jasper_path }}/client/requirements.txt"
+
+- name: Pip install jasper specifics
+  pip: name=pocketsphinx extra_args=--no-cache-dir
