@@ -1,9 +1,10 @@
 ---
 - name: Pip install jasper requirements
-  pip: requirements="{{ jasper_path }}/client/requirements.txt"
+  pip: requirements="{{ jasper_path }}/requirements.txt"
 
 - name: Pip install jasper specifics
   pip: name={{ item }} extra_args=--no-cache-dir
   with_items:
     - pocketsphinx
     - pyalsaaudio
+    - slugify

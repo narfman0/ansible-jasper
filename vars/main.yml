@@ -2,3 +2,5 @@
 jasper_user: jasper
 jasper_base_path: /home/{{ jasper_user }}
 jasper_path: "{{ jasper_base_path }}/jasper"
+jasper_stt_engine: sphinx
+jasper_witai_access_token: token

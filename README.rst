@@ -17,11 +17,11 @@ is running! Some tweaks to sound devices may be needed.
 TODO
 ----
 
+* cmuclmtk
 * Get rest of jasper working; pausing maybe halfway now :)
 * Deploy to ansible galaxy
 * Augment documentation with raspberry pi+normal instructions
 * Augment documentation for development with vagrant
-* Deploy to raspberry pi (raspbian) via a small set of vars
 
 License
 -------

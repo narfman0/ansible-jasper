@@ -1,0 +1,8 @@
+- name: Update modprobe alsa base conf
+  template: src=alsa-base.conf.j2 dest=/etc/modprobe.d/alsa-base.conf
+
+- name: Update defaults.ctl.card
+  lineinfile: dest=/usr/share/alsa/alsa.conf regexp='^defaults\.ctl\.card [0-9]+' line='defaults.ctl.card 1'
+
+- name: Update defaults.pcm.card
+  lineinfile: dest=/usr/share/alsa/alsa.conf regexp='^defaults\.pcm\.card [0-9]+' line='defaults.pcm.card 1'

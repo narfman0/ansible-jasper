@@ -3,9 +3,11 @@ gmail_password: ''
 location: New_York
 phone_number: ''
 prefers_email: true
-stt_engine: sphinx
+stt_engine: '{{ jasper_stt_engine }}'
 pocketsphinx:
   fst_model: '{{ jasper_base_path }}/phonetisaurus/g014b2b.fst'
   hmm_dir: '/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k'
+witai-stt:
+  access_token: '{{ jasper_witai_access_token }}'
 tts_engine: espeak-tts
 timezone: EST

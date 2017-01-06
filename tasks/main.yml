@@ -6,7 +6,7 @@
   user: name={{ jasper_user }} comment="jasper" shell=/bin/bash groups=audio append=yes
 
 - name: Clone jasper repo
-  git: repo=https://github.com/jasperproject/jasper-client.git dest={{ jasper_path }}
+  git: repo=https://github.com/jasperproject/jasper-client.git dest={{ jasper_path }} version=jasper-dev
   become_user: "{{ jasper_user }}"
 
 - include: phonetisaurus.yml
@@ -23,14 +23,6 @@
   template: src=profile.yml.j2 dest={{ jasper_base_path }}/.jasper/profile.yml
   become_user: "{{ jasper_user }}"
 
-- name: Update modprobe alsa base conf
-  command: echo "options snd_usb_audio index=0\noptions snd_bcm2835 index=1\noptions snd slots=snd-usb-audio,snd-bcm2835" > /etc/modprobe.d/alsa-base.conf
-  when: "'{{ ansible_hostname }}' in groups['rasppi']"
-
-- name: Update defaults.ctl.card
-  command: sed -i 's/defaults\.ctl\.card\ 0/defaults\.ctl\.card\ 1/g' /usr/share/alsa/alsa.conf
-  when: "'{{ ansible_hostname }}' in groups['rasppi']"
-
-- name: Update defaults.pcm.card
-  command: sed -i 's/defaults\.pcm\.card\ 0/defaults\.pcm\.card\ 1/g' /usr/share/alsa/alsa.conf
+- include: raspberrypi.yml
+  tags: raspberrypi
   when: "'{{ ansible_hostname }}' in groups['rasppi']"
