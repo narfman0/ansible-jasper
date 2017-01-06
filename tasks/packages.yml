@@ -16,9 +16,10 @@
     - libpulse-dev
     - espeak
     - alsa-utils
+    - portaudio19-dev
 
 - name: Install testing packages
-  apt: name={{ item }} default_release=testing
+  apt: name={{ item }} default_release=testing force=yes
   with_items:
     - libfst-tools
     - python-dev
@@ -26,7 +27,7 @@
     - python-pip
 
 - name: Install experimental packages
-  apt: name={{ item }} default_release=experimental
+  apt: name={{ item }} default_release=experimental force=yes
   with_items:
     - m2m-aligner
     - mitlm
