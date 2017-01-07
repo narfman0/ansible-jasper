@@ -1,6 +1,9 @@
 ansible-jasper
 ==============
 
+.. image:: http://img.shields.io/badge/ansible--galaxy-jasper-blue.svg
+  :target: https://galaxy.ansible.com/narfman0/jasper/
+
 Ansible module for jasper project.
 
 Usage
