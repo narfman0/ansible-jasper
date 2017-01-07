@@ -61,10 +61,7 @@ Defaults use sphinx. If you want to use wit.ai, in `vars/main.yml`::
 TODO
 ----
 
-* Start jasper, handle daemon
-* Deploy to ansible galaxy
-* Augment documentation with raspberry pi+normal instructions
-* Augment documentation for development with vagrant
+* Augment documentation
 
 License
 -------

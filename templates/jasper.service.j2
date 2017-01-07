@@ -1,0 +1,9 @@
+[Unit]
+Description=Jasper voice control
+
+[Service]
+ExecStart=/usr/bin/python {{ jasper_base_path }}/jasper/Jasper.py
+User=jasper
+
+[Install]
+WantedBy=multi-user.target
