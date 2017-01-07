@@ -1,9 +1,9 @@
 ---
 - name: Add experimental repo
-  shell: echo 'deb http://httpredir.debian.org/debian experimental main contrib non-free' > /etc/apt/sources.list.d/experimental.list
+  template: src=experimental.list.j2 dest=/etc/apt/sources.list.d/experimental.list
 
 - name: Add testing repo
-  shell: echo 'deb http://httpredir.debian.org/debian testing main' > /etc/apt/sources.list.d/testing.list
+  template: src=testing.list.j2 dest=/etc/apt/sources.list.d/testing.list
 
 - name: Install packages
   apt: name={{ item }} update_cache=yes default_release=stable
@@ -17,6 +17,7 @@
     - espeak
     - alsa-utils
     - portaudio19-dev
+    - libmad0
 
 - name: Install testing packages
   apt: name={{ item }} default_release=testing force=yes
