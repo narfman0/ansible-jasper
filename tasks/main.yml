@@ -1,6 +1,5 @@
 ---
 - include: packages.yml
-  tags: packages
 
 - name: Create jasper user
   user: name={{ jasper_user }} comment="jasper" shell=/bin/bash groups=audio append=yes
@@ -10,10 +9,11 @@
   become_user: "{{ jasper_user }}"
 
 - include: phonetisaurus.yml
-  tags: phonetisaurus
+
+- include: cmuclmtk.yml
+  when: "'sphinx' == '{{ jasper_stt_engine }}'"
 
 - include: pip.yml
-  tags: pip
 
 - name: Create settings directory
   file: path={{ jasper_base_path }}/.jasper state=directory
@@ -24,7 +24,6 @@
   become_user: "{{ jasper_user }}"
 
 - include: raspberrypi.yml
-  tags: raspberrypi
   when: "'rasppi' in groups and '{{ ansible_hostname }}' in groups['rasppi']"
 
 - name: Install systemd unit
