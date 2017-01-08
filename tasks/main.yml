@@ -8,10 +8,10 @@
   git: repo=https://github.com/jasperproject/jasper-client.git dest={{ jasper_path }} version=jasper-dev
   become_user: "{{ jasper_user }}"
 
-- include: phonetisaurus.yml
-
 - include: cmuclmtk.yml
   when: "'sphinx' == '{{ jasper_stt_engine }}'"
+
+- include: phonetisaurus.yml
 
 - include: pip.yml
 
