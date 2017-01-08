@@ -1,4 +1,14 @@
 ---
+- name: Download pip
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /root/get-pip.py
+
+- name: Install recent pip
+  shell: python get-pip.py
+  args:
+    chdir: /root
+
 - name: Pip install jasper requirements
   pip: requirements="{{ jasper_path }}/requirements.txt"
 
