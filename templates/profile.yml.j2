@@ -4,6 +4,7 @@ location: New_York
 phone_number: ''
 prefers_email: true
 stt_engine: '{{ jasper_stt_engine }}'
+stt_passive_engine: '{{ jasper_stt_passive_engine|default('sphinx') }}'
 pocketsphinx:
   fst_model: '{{ jasper_base_path }}/phonetisaurus/g014b2b.fst'
   hmm_dir: '/usr/share/pocketsphinx/model/hmm/en_US/hub4wsj_sc_8k'
