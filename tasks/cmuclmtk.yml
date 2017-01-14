@@ -6,6 +6,7 @@
     - automake
     - gfortran
     - g++
+    - make
 
 - name: Clone cmusphinx repo
   git: repo=https://github.com/narfman0/cmusphinx.git dest=/root/cmusphinx
