@@ -29,7 +29,9 @@
 - name: Install systemd unit
   template: src=jasper.service.j2 dest=/etc/systemd/system/jasper.service
 
-- name: Enable jasper service (manually, see ansible-modules-core #3784)
+- name: Enable jasper service
+  # Manually, see ansible-modules-core #3784
   systemd: enabled=True name=jasper
-  notify:
-    - restart jasper
+
+- name: Restart jasper
+  service: name=jasper state=restarted

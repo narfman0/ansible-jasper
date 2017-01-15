@@ -1,5 +1,0 @@
----
-- name: restart jasper
-  service:
-    name: jasper
-    state: restarted

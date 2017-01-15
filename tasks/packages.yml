@@ -1,12 +1,30 @@
 ---
 - name: Add experimental repo
-  template: src=experimental.list.j2 dest=/etc/apt/sources.list.d/experimental.list
+  lineinfile:
+    dest: /etc/apt/sources.list
+    regexp: 'experimental'
+    line: 'deb http://httpredir.debian.org/debian experimental main contrib non-free'
 
 - name: Add testing repo
-  template: src=testing.list.j2 dest=/etc/apt/sources.list.d/testing.list
+  lineinfile:
+    dest: /etc/apt/sources.list
+    regexp: 'testing'
+    line: 'deb http://httpredir.debian.org/debian testing main'
+
+- name: Create apt preference file
+  template: src=preferences.j2 dest=/etc/apt/preferences
+
+- name: Update cache
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Upgrade packages
+  # Upgrade needed for text2wfreq issue; likely libc
+  apt: upgrade=dist dpkg_options="skip-same-version"
+  register: dpkg_result
+  changed_when: dpkg_result.stdout.find("\n0 upgraded") == -1
 
 - name: Install packages
-  apt: name={{ item }} update_cache=yes default_release=stable
+  apt: name={{ item }}
   with_items:
     - git
     - bison
@@ -18,17 +36,9 @@
     - alsa-utils
     - portaudio19-dev
     - libmad0
-
-- name: Install testing packages
-  apt: name={{ item }} default_release=testing force=yes
-  with_items:
     - libfst-tools
-    - python-dev
-    - python-pyaudio
-
-- name: Install experimental packages
-  apt: name={{ item }} default_release=experimental force=yes
-  with_items:
     - m2m-aligner
     - mitlm
     - phonetisaurus
+    - python-dev
+    - python-pyaudio
