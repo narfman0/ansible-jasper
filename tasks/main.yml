@@ -30,7 +30,6 @@
   template: src=jasper.service.j2 dest=/etc/systemd/system/jasper.service
 
 - name: Enable jasper service (manually, see ansible-modules-core #3784)
-  shell: systemctl enable jasper
-
-- name: Run jasper
-  systemd: state=restarted name=jasper enabled=True
+  systemd: enabled=True name=jasper
+  notify:
+    - restart jasper

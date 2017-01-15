@@ -11,7 +11,13 @@
 - name: Clone cmusphinx repo
   git: repo=https://github.com/narfman0/cmusphinx.git dest=/root/cmusphinx
 
+- name: Check cmusphinx installation
+  stat:
+    path: "/usr/local/bin/text2wfreq"
+  register: stat_result
+
 - name: Build cmuclmtk
   shell: ./autogen.sh && make && make install
   args:
     chdir: /root/cmusphinx/cmuclmtk
+  when: stat_result.stat.exists == False

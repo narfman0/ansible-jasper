@@ -12,7 +12,7 @@ Usage
 
 A vagrant file has been included for easier testing. To use::
 
-    vagrant up
+    vagrant up --provider virtualbox
 
 This will provision the machine such that a working jasper
 is ready to run. Some tweaks to sound devices may be needed.
