@@ -15,10 +15,12 @@
   template: src=preferences.j2 dest=/etc/apt/preferences
 
 - name: Update cache
-  apt: update_cache=yes cache_valid_time=3600
+  # The following line should be all that is necessary, but cache is messing it up
+  # apt: update_cache=yes cache_valid_time=3600
+  apt: update_cache=yes
+  changed_when: False
 
 - name: Upgrade packages
-  # Upgrade needed for text2wfreq issue; likely libc
   apt: upgrade=dist dpkg_options="skip-same-version"
   register: dpkg_result
   changed_when: dpkg_result.stdout.find("\n0 upgraded") == -1

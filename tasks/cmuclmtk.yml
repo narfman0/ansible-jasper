@@ -17,7 +17,7 @@
   register: stat_result
 
 - name: Build cmuclmtk
-  shell: ./autogen.sh && make && make install
+  shell: ./autogen.sh && make && make install && ldconfig
   args:
     chdir: /root/cmusphinx/cmuclmtk
   when: stat_result.stat.exists == False
