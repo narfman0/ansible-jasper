@@ -22,6 +22,8 @@
 - name: Create settings file
   template: src=profile.yml.j2 dest={{ jasper_base_path }}/.jasper/profile.yml
   become_user: "{{ jasper_user }}"
+  notify:
+  - Restart jasper
 
 - include: raspberrypi.yml
   when: "'rasppi' in groups and '{{ ansible_hostname }}' in groups['rasppi']"
@@ -32,6 +34,5 @@
 - name: Enable jasper service
   # Manually, see ansible-modules-core #3784
   systemd: enabled=True name=jasper
-
-- name: Restart jasper
-  service: name=jasper state=restarted
+  notify:
+  - Restart jasper

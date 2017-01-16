@@ -17,6 +17,8 @@
 
 - name: Pip install jasper requirements
   pip: requirements="{{ jasper_path }}/requirements.txt"
+  notify:
+  - Restart jasper
 
 - name: Pip install jasper specifics
   pip: name={{ item }} extra_args=--no-cache-dir

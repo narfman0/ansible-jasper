@@ -1,0 +1,3 @@
+---
+- name: Restart jasper
+  service: name=jasper state=restarted
