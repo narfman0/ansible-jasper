@@ -1,5 +1,5 @@
 - name: Install cmusphinx packages
-  apt: name={{ item }} default_release=stable
+  apt: name={{ item }}
   with_items:
     - autoconf
     - libtool

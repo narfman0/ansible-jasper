@@ -11,6 +11,12 @@
     regexp: 'testing'
     line: 'deb http://httpredir.debian.org/debian testing main'
 
+- name: Trust these dev keys
+  apt_key: keyserver=keyserver.ubuntu.com id={{ item }}
+  with_items:
+    - 7638D0442B90D010
+    - 8B48AD6246925553
+
 - name: Create apt preference file
   template: src=preferences.j2 dest=/etc/apt/preferences
 
