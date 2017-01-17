@@ -4,3 +4,8 @@ jasper_base_path: /home/{{ jasper_user }}
 jasper_path: "{{ jasper_base_path }}/jasper"
 jasper_stt_engine: sphinx
 jasper_witai_access_token: token
+jasper_mpd_host: 127.0.0.1
+jasper_mpd_port: 6600
+jasper_mpd_password: ''
+jasper_mic_samplerate: 44100
+jasper_mic_samplewidth: 16

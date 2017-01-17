@@ -12,3 +12,10 @@ witai-stt:
   access_token: '{{ jasper_witai_access_token }}'
 tts_engine: espeak-tts
 timezone: EST
+mpdclient:
+  server: '{{ jasper_mpd_host }}'
+  port: '{{ jasper_mpd_port }}'
+  password: '{{ jasper_mpd_password }}'
+audio:
+  input_samplerate: {{ jasper_mic_samplerate }}
+  input_samplewidth: {{ jasper_mic_samplewidth }}
