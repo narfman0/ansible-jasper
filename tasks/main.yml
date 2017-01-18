@@ -9,7 +9,6 @@
   become_user: "{{ jasper_user }}"
 
 - include: cmuclmtk.yml
-  when: "'sphinx' == '{{ jasper_stt_engine }}'"
 
 - include: phonetisaurus.yml
 
